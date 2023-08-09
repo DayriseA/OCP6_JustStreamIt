@@ -1,0 +1,10 @@
+.best_movies {
+    display: flex;
+    overflow-x: scroll;
+    white-space: nowrap;
+    padding: 10px;
+}
+
+.modal {
+    display: none;
+}
