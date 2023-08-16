@@ -9,7 +9,7 @@
 	<body>
 		<header>
 			<h1>JustStreamIt</h1>
-            <nav>
+            <nav class="navbar">
                 <ul>
                     <li>Accueil</li>
                     <li>Catégories</li>
@@ -18,16 +18,18 @@
 		</header>
 		<main>
 		<div class="top_movie"></div>
-        <div id="modal_top" class="modal">
-            <div class="modal_content">
-                <span class="close">&times;</span>
-                <div class="modal_data"></div>
-            </div>
-        </div>
         <div class="best_movies"></div>
         <div class="action_movies"></div>
         <div class="comedy_movies"></div>
         <div class="animation_movies"></div>
+        <div class="modal modal--hidden">
+            <div class="modal__header">
+                <h2 class="modal__header__title"></h2>
+                <button class="modal__header__close">&times;</button>
+            </div>
+            <div class="modal__content"></div>
+        </div>
+        <div class="blur blur--hidden"></div>
 		</main>
 	</body>
 </html>

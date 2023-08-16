@@ -1,45 +1,41 @@
-import {fetchData, makeModalContent, generateTop7Html} from "./functions.js";
+import {fetchData, fetchXElements, GenerateModalHtml, createCarouselHtml} from "./functions.js";
 
 const apiBaseUrl = "http://localhost:8000/api/v1/";
+const topMoviesUrl = apiBaseUrl + "titles/?sort_by=-imdb_score";
 
-async function insertTopMovieDetails() {
+async function generateWebpageContent() {
     try {
-        const queryUrl = apiBaseUrl + "titles/?sort_by=-imdb_score";
-        const moviesData = await fetchData(queryUrl);
+        const topMoviesData = await fetchData(topMoviesUrl);
+        const topMovieId = topMoviesData.results[0].id;
+        const topMovieUrl = apiBaseUrl + `titles/${topMovieId}`;
+        const movieData = await fetchData(topMovieUrl);
+        const topMovieDiv = document.querySelector(".top_movie");
 
-        if (moviesData.results && moviesData.results.length > 0) {
-            const topMovieId = moviesData.results[0].id;
-            const movieUrl = apiBaseUrl + `titles/${topMovieId}`;
-            const movieData = await fetchData(movieUrl);
-            const topMovieDiv = document.querySelector(".top_movie");
-
-            const html = `
-                <h2>${movieData.title}</h2>
+        const html = `
+                <h2 class="movie_title">${movieData.title}</h2>
                 <img src="${movieData.image_url}" alt="${movieData.title} cover">
                 <p>${movieData.description}</p>
                 <button id="topMovieDetails">More info</button>
             `;
 
+            topMovieDiv.dataset.id = movieData.id;
             topMovieDiv.innerHTML = html;
 
             const detailsBtn = document.getElementById("topMovieDetails");
-            const modal = document.getElementById("modal_top");
-            const modalData = document.querySelector(".modal_data");
-            const closeBtn = document.querySelector('.close');
+            const modalDiv = document.querySelector(".modal");
+            const closeBtn = document.querySelector(".modal__header__close");
+            const blurDiv = document.querySelector(".blur");
 
             detailsBtn.addEventListener("click", () => {
-                modal.style.display = "block";
-                modalData.innerHTML = makeModalContent(movieData);
-                closeBtn.style.display = "block";
+                GenerateModalHtml(movieData);
+                modalDiv.classList.remove("modal--hidden");
+                blurDiv.classList.remove("blur--hidden");
             });
 
             closeBtn.addEventListener("click", () => {
-                modal.style.display = "none";
+                modalDiv.classList.add("modal--hidden");
+                blurDiv.classList.add("blur--hidden");
             });
-
-        } else {
-            console.log("No movies found.");
-        }
     } catch (error) {
         console.error("An error occurred:", error);
     }
@@ -48,19 +44,13 @@ async function insertTopMovieDetails() {
 async function displayBestMovies() {
     try {
         const queryUrl = apiBaseUrl + "titles/?sort_by=-imdb_score";
-        const moviesData = await fetchData(queryUrl);
-
-        if (moviesData.results && moviesData.results.length > 0) {
-            const top7Movies = moviesData.results.slice(0, 7);
-            const bestMoviesDiv = document.querySelector(".best_movies");
-            bestMoviesDiv.innerHTML = generateTop7Html(top7Movies);
-        } else {
-            console.log("No movies found.");
-        }
+        const topMoviesData = await fetchXElements(queryUrl, 7);
+        const bestMoviesDiv = document.querySelector(".best_movies");
+        bestMoviesDiv.innerHTML = createCarouselHtml(topMoviesData);
     } catch (error) {
         console.error("An error occurred:", error);
     }
 }
 
-insertTopMovieDetails();
+generateWebpageContent();
 displayBestMovies();

@@ -1,3 +1,26 @@
+header {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    background-color: lightslategray;
+    color: white;
+}
+
+h1 {
+    margin-left: 3%;
+    flex-basis: 67%;
+}
+
+.navbar ul {
+    display: flex;
+    flex-basis: 33%;
+    list-style-type: none;
+}
+
+.navbar li {
+    margin-right: 5em;
+}
+
 .best_movies {
     display: flex;
     overflow-x: scroll;
@@ -6,5 +29,65 @@
 }
 
 .modal {
+    background: #ccc;
+    position: fixed;
+    width: auto;
+    height: auto;
+    padding: 2em;
+    border-radius: 10px;
+    z-index: 99;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.modal--hidden {
+    display: none;
+}
+
+.modal__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 2em;
+    color: #000;
+}
+
+.modal__header__title {
+    margin: 0;
+}
+
+.modal__header__close {
+    background: transparent;
+    border: none;
+    font-size: 2em;
+}
+
+.modal__header__close:hover {
+    color: #fa5252;
+}
+
+.modal__content__main {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-left: 0.5em;
+}
+
+.modal__content__main p {
+    margin-left: 2em;
+}
+
+.blur {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(5px);
+}
+
+.blur--hidden {
     display: none;
 }
