@@ -39,8 +39,7 @@ export async function fetchXElements(url, x) {
 
 export function createCarouselHtml(moviesList) {
   return moviesList.map((movie, index) => `
-      <div class="best_movie" data-id="${movie.id}" data-index="${index}">
-          <h3>${movie.title}</h3>
+      <div class="carousel__movie" data-id="${movie.id}" data-index="${index}">
           <img src="${movie.image_url}" alt="${movie.title} cover">
       </div>
   `).join('');
@@ -71,7 +70,6 @@ export function GenerateModalHtml(movieData) {
             <li>Duration: ${movieData.duration} minutes</li>
             <li>Countries: ${countries}</li>
             <li>Worldwide Gross Income: ${movieData.worldwide_gross_income}</li>
-            <li>Long Description: ${movieData.long_description}</li>
         </ul>
     `;
     modalContentDiv.innerHTML = modalHtml;

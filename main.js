@@ -3,6 +3,17 @@ import {fetchData, fetchXElements, GenerateModalHtml, createCarouselHtml} from "
 const apiBaseUrl = "http://localhost:8000/api/v1/";
 const topMoviesUrl = apiBaseUrl + "titles/?sort_by=-imdb_score";
 
+async function displayBestMovies(carouselId, genre = "") {
+    try {
+        const queryUrl = `${apiBaseUrl}titles/?genre=${genre}&sort_by=-imdb_score`;
+        const topMoviesData = await fetchXElements(queryUrl, 7);
+        const bestMoviesDiv = document.getElementById(carouselId);
+        bestMoviesDiv.innerHTML = createCarouselHtml(topMoviesData);
+    } catch (error) {
+        console.error("An error occurred:", error);
+    }
+}
+
 async function generateWebpageContent() {
     try {
         const topMoviesData = await fetchData(topMoviesUrl);
@@ -36,21 +47,25 @@ async function generateWebpageContent() {
                 modalDiv.classList.add("modal--hidden");
                 blurDiv.classList.add("blur--hidden");
             });
-    } catch (error) {
-        console.error("An error occurred:", error);
-    }
-}
+            await displayBestMovies("carousel0");
+            await displayBestMovies("carousel1", "comedy");
+            await displayBestMovies("carousel2", "drama");
+            await displayBestMovies("carousel3", "action");
 
-async function displayBestMovies() {
-    try {
-        const queryUrl = apiBaseUrl + "titles/?sort_by=-imdb_score";
-        const topMoviesData = await fetchXElements(queryUrl, 7);
-        const bestMoviesDiv = document.querySelector(".best_movies");
-        bestMoviesDiv.innerHTML = createCarouselHtml(topMoviesData);
+            const carouselMovies = document.querySelectorAll(".carousel__movie");
+            carouselMovies.forEach((movie) => {
+                movie.addEventListener("click", async () => {
+                    let movieId = movie.dataset.id;
+                    let movieUrl = apiBaseUrl + `titles/${movieId}`;
+                    let movieDetails = await fetchData(movieUrl);
+                    GenerateModalHtml(movieDetails);
+                    modalDiv.classList.remove("modal--hidden");
+                    blurDiv.classList.remove("blur--hidden");
+                });
+            });
     } catch (error) {
         console.error("An error occurred:", error);
     }
 }
 
 generateWebpageContent();
-displayBestMovies();
