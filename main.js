@@ -7,8 +7,23 @@ async function displayBestMovies(carouselId, genre = "") {
     try {
         const queryUrl = `${apiBaseUrl}titles/?genre=${genre}&sort_by=-imdb_score`;
         const topMoviesData = await fetchXElements(queryUrl, 7);
-        const bestMoviesDiv = document.getElementById(carouselId);
-        bestMoviesDiv.innerHTML = createCarouselHtml(topMoviesData);
+        const carouselDiv = document.getElementById(carouselId);
+        const prevButton = carouselDiv.querySelector(".carousel__prev");
+        const nextButton = carouselDiv.querySelector(".carousel__next");
+        const carouselContent = carouselDiv.querySelector(".carousel__content");
+        carouselContent.innerHTML = createCarouselHtml(topMoviesData);
+
+        let currentIndex = 0;
+
+        prevButton.addEventListener("click", () => {
+            currentIndex = (currentIndex - 1 + topMoviesData.length) % topMoviesData.length;
+            carouselContent.style.transform = `translateX(-${currentIndex * 25}%)`;
+        });
+        
+        nextButton.addEventListener("click", () => {
+            currentIndex = (currentIndex + 1) % topMoviesData.length;
+            carouselContent.style.transform = `translateX(-${currentIndex * 25}%)`;
+        });        
     } catch (error) {
         console.error("An error occurred:", error);
     }

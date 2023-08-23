@@ -1,3 +1,7 @@
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
 header {
     display: flex;
     justify-content: flex-start;
@@ -21,15 +25,68 @@ h1 {
     margin-right: 5em;
 }
 
+body {
+    margin: 0;
+}
+
 .carousel {
+    display : flex;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.carousel__content {
     display: flex;
-    overflow-x: scroll;
-    margin-top: 1em;
-    margin-bottom: 1em;
+    flex-grow: 1;
+    margin: 0 0.25rem;
+    transition: transform 0.25s ease-in-out;
 }
 
 .carousel__movie {
-    max-width: 200px;
+    flex: 0 0 25%;
+    max-width: 25%;
+    padding: 0.25rem;
+}
+
+.carousel__content img {
+    object-fit: cover;
+    width: 100%;
+}
+
+.carousel__prev,
+.carousel__next {
+    border: none;
+    border-radius: 1rem;
+    font-size: 5rem;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+    flex-grow: 0;
+    background-color: rgba(0, 0, 0, 0.25);
+    z-index: 10;
+    margin: 0.25rem 0;
+    cursor: pointer;
+    transition: font-size 0.25s ease-in-out, background-color 0.25s ease-in-out;
+}
+
+.carousel__prev:hover,
+.carousel__prev:focus,
+.carousel__next:hover,
+.carousel__next:focus {
+    background-color: rgba(0, 0, 0, 0.5);
+    font-size: 6.5rem;
+}
+
+.carousel__prev {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.carousel__next {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
 }
 
 .modal {
