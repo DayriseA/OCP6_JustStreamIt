@@ -29,6 +29,41 @@ body {
     margin: 0;
 }
 
+.category {
+    margin-left: 3rem;
+    margin-bottom: 0;
+    font-size: 1.3em;
+}
+
+.top_movie {
+    display : grid;
+    grid-auto-columns: auto;
+    margin-bottom: 4rem;
+    background-color: rgba(0, 0, 0, 0.08);
+    height: fit-content;
+}
+
+.top_movie__content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0 0.5em;
+}
+
+.movie_title {
+    font-weight: bold;
+    margin: 0.25em 0;
+}
+
+.top_movie img {
+    object-fit: cover;
+    grid-column: 2;
+    padding-left: 0.5rem;
+    min-width: 50vmin;
+    max-width: 50vmax;
+}
+
 .carousel {
     display : flex;
     justify-content: center;

@@ -8,11 +8,15 @@ async function displayBestMovies(carouselId, genre = "") {
         const queryUrl = `${apiBaseUrl}titles/?genre=${genre}&sort_by=-imdb_score`;
         const topMoviesData = await fetchXElements(queryUrl, 7);
         const carouselDiv = document.getElementById(carouselId);
+        const h2Category = document.createElement("h2");
         const prevButton = carouselDiv.querySelector(".carousel__prev");
         const nextButton = carouselDiv.querySelector(".carousel__next");
         const carouselContent = carouselDiv.querySelector(".carousel__content");
         carouselContent.innerHTML = createCarouselHtml(topMoviesData);
 
+        h2Category.classList.add("category");
+        h2Category.innerText = (genre || "BEST RATED").toUpperCase();
+        carouselDiv.parentNode.insertBefore(h2Category, carouselDiv);
         let currentIndex = 0;
 
         prevButton.addEventListener("click", () => {
@@ -38,10 +42,12 @@ async function generateWebpageContent() {
         const topMovieDiv = document.querySelector(".top_movie");
 
         const html = `
-                <h2 class="movie_title">${movieData.title}</h2>
+                <div class="top_movie__content">
+                    <h2 class="movie_title">${movieData.title}</h2>
+                    <p>${movieData.description}</p>
+                    <button id="topMovieDetails">More info</button>
+                </div>
                 <img src="${movieData.image_url}" alt="${movieData.title} cover">
-                <p>${movieData.description}</p>
-                <button id="topMovieDetails">More info</button>
             `;
 
             topMovieDiv.dataset.id = movieData.id;
