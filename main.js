@@ -17,16 +17,17 @@ async function displayBestMovies(carouselId, genre = "") {
         h2Category.classList.add("category");
         h2Category.innerText = (genre || "BEST RATED").toUpperCase();
         carouselDiv.parentNode.insertBefore(h2Category, carouselDiv);
-        let currentIndex = 0;
+
+        nextButton.addEventListener("click", () => {
+            const firstMovie = carouselContent.querySelector(".carousel__movie");
+            carouselContent.appendChild(firstMovie.cloneNode(true));
+            firstMovie.remove();
+        });
 
         prevButton.addEventListener("click", () => {
-            currentIndex = (currentIndex - 1 + topMoviesData.length) % topMoviesData.length;
-            carouselContent.style.transform = `translateX(-${currentIndex * 25}%)`;
-        });
-        
-        nextButton.addEventListener("click", () => {
-            currentIndex = (currentIndex + 1) % topMoviesData.length;
-            carouselContent.style.transform = `translateX(-${currentIndex * 25}%)`;
+            const lastMovie = carouselContent.querySelector(".carousel__movie:last-child");
+            carouselContent.insertBefore(lastMovie.cloneNode(true), carouselContent.firstChild);
+            lastMovie.remove();
         });        
     } catch (error) {
         console.error("An error occurred:", error);
