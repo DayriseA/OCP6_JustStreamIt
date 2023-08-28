@@ -74,15 +74,19 @@ async function generateWebpageContent() {
             await displayBestMovies("carousel2", "drama");
             await displayBestMovies("carousel3", "action");
 
-            const carouselMovies = document.querySelectorAll(".carousel__movie");
-            carouselMovies.forEach((movie) => {
-                movie.addEventListener("click", async () => {
-                    let movieId = movie.dataset.id;
-                    let movieUrl = apiBaseUrl + `titles/${movieId}`;
-                    let movieDetails = await fetchData(movieUrl);
-                    GenerateModalHtml(movieDetails);
-                    modalDiv.classList.remove("modal--hidden");
-                    blurDiv.classList.remove("blur--hidden");
+            // Using event delegation to add event listeners to all carousel movies
+            const carouselDivs = document.querySelectorAll(".carousel");
+            carouselDivs.forEach((carousel) => {
+                carousel.addEventListener("click", async (event) => {
+                    const movie = event.target.closest(".carousel__movie");
+                    if (movie) {
+                        const movieId = movie.dataset.id;
+                        const movieUrl = apiBaseUrl + `titles/${movieId}`;
+                        const movieDetails = await fetchData(movieUrl);
+                        GenerateModalHtml(movieDetails);
+                        modalDiv.classList.remove("modal--hidden");
+                        blurDiv.classList.remove("blur--hidden");
+                    }
                 });
             });
     } catch (error) {
